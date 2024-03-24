@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="login.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Game Progress App | Login</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="library.html">Library</a></li>
+      </ul>
+    </nav>
+    <section>
+      <div class="container">
+        <div class="header">
+          <h1>Login</h1>
+        </div>
+        <form name="login" onsubmit="return validateForm()" method="post">
+          <ul>
+            <li>
+              <label for="username">
+                Username:
+                <input id="username" type="text" name="username"
+              /></label>
+            </li>
+            <li>
+              <label for="password">
+                Password:
+                <input id="password" type="password" name="password"
+              /></label>
+            </li>
+          </ul>
+          <input type="submit" class="submit" value="Log In" name="submit" />
+        </form>
+      </div>
+    </section>
 
-<div class="container">
-    <div class="header">
-        <h1>Login</h1>
-    </div>
-
-    <form name="login" onsubmit="return validateForm()" method="post">
-        <ul>
-            <li>Username: <input class="username" type="text" name="username"></li>
-            <li>Password: <input class="password" type="password" name="password"></li>
-        </ul>
-        <input type="submit" class="submit" value="Log In" name="submit">
-    </form>
-</div>
-
-<script src="login.js"></script>
-</body>
+    <script src="./scripts/login.js"></script>
+  </body>
 </html>
