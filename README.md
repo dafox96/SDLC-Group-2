@@ -23,3 +23,8 @@ User Stories:
 2.  I want to be able to upload/delete games into/from my library and track their progress.
 3.  I want to be able to favorite my games so I can view the ones I am most interested in.
 4.  I want my personal information to be stored securely and I want to be the only one with access to my library, through user authentication.
+
+
+Matthew: Index page, game display page
+Roberta: Form for adding games
+David: Hashing, convert password handling to python
