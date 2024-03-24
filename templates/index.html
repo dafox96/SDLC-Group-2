@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
     <title>Game Progress App</title>
   </head>
   <body>
@@ -11,7 +15,7 @@
       <h1>Game Progress App</h1>
       <nav id="home-nav">
         <!-- If not logged in: -->
-        <p><a href="/login.html">Log In</a></p>
+        <p><a href="/login">Log In</a></p>
         <!-- If logged in: -->
         <!-- <p><a href="/library.html">View Library</a></p> -->
       </nav>
