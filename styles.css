@@ -51,41 +51,16 @@ section {
   padding: 25px;
 }
 
-li {
-  list-style-type: none;
-  text-align: center;
-  padding-bottom: 5%;
-}
-
-
-form input {
-  padding: .5rem;
-  border-radius: 10px;
-  text-align: left;
-  border: 1px solid black;
-}
-
-form input:focus {
-  background-color: rgb(237, 237, 237);
-}
-
-form ul {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-}
-
-h1 {
-  color: #f07334;
-}
-
 nav {
   background-color: whitesmoke;
+  padding: .5rem;
+  border-radius: 10px;
   margin-bottom: 1rem;
   width: 100%;
 }
 
 nav ul {
+  list-style: none;
   display: flex;
   justify-items: space-around;
   padding: 0;
@@ -105,18 +80,42 @@ nav ul > li {
   width: 100px;
 }
 
-.container {
+form {
   border: 2px solid #f07334;
-  width: 25%;
-  text-align: center;
-  margin: auto;
+  width: 350px;
   border-radius: 10px;
-  background-color: white;
-  padding-bottom: 10px;
+  padding: 10px;
   -webkit-box-shadow: 3px 0px 10px 0px black;
   -moz-box-shadow: 3px 0px 10px 0px black;
   box-shadow: 3px 0px 10px 0px black;
 }
+
+form input {
+  padding: .5rem;
+  border-radius: 10px;
+  text-align: left;
+  border: 1px solid black;
+}
+
+form input:focus {
+  background-color: rgb(237, 237, 237);
+}
+
+form ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+form ul >li {
+  padding: 1rem;
+}
+
+h1 {
+  color: #f07334;
+}
+
 
 .submit {
   background-color: transparent;
