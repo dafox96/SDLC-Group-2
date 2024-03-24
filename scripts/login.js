@@ -1,14 +1,14 @@
 function validateForm() {
-   var username = document.forms["login"]["username"].value;
-   var password = document.forms["login"]["password"].value;
-   var valid = validate(username, password);
+   let username = document.forms["login"]["username"].value;
+   let password = document.forms["login"]["password"].value;
+   let valid = validate(username, password);
    return valid;
 }
 
 function validate(username, password) {
-   var valid = false;
-   var usernameArray = ["JaneDoe"];
-   var passwordArray = ["123"];
+   let valid = false;
+   let usernameArray = ["JaneDoe"];
+   let passwordArray = ["123"];
   
    for (var i = 0; i < usernameArray.length; i++) {
        if (username === usernameArray[i] && password === passwordArray[i]) {
@@ -18,11 +18,10 @@ function validate(username, password) {
    }
    if (valid) {
        // Redirect to Google after successful validation
-       window.location.href = "http://www.google.com";
+       window.location.href = "../library.html";
    } else {
        // Perform any other actions if validation fails
        alert("Invalid username or password.");
    }
    return false;
 }
-module.exports = validate;
