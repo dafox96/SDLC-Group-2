@@ -22,24 +22,35 @@
         <div class="header">
           <h1>Login</h1>
         </div>
-        <form name="login" onsubmit="return validateForm()" method="post">
+        <form name="login" method="post">
           <ul>
             <li>
               <label for="username">
                 Username:
-                <input id="username" type="text" name="username"
+                <input
+                  id="username"
+                  type="text"
+                  name="username"
+                  value="{{ request.form.username }}"
               /></label>
             </li>
             <li>
               <label for="password">
                 Password:
-                <input id="password" type="password" name="password"
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  alue="{{ request.form.password }}"
               /></label>
             </li>
           </ul>
           <input type="submit" class="submit" value="Log In" name="submit" />
         </form>
       </div>
+      {% if error %}
+      <p class="error"><strong>Error:</strong></p>
+      {{ error }} {% endif %}
     </section>
 
     <script src="./scripts/login.js"></script>
