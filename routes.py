@@ -11,7 +11,7 @@ from sqlalchemy.exc import (
 from werkzeug.routing import BuildError
 
 
-from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 from flask_login import (
     UserMixin,
@@ -32,7 +32,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-app = create_app()
+app: Flask = create_app()
 
 
 @app.before_request
@@ -76,12 +76,12 @@ def register():
     form = register_form()
     if form.validate_on_submit():
         try:
-            pwd = form.pwd.data
-            username = form.username.data
+            pwd: str | None = form.pwd.data
+            username: str | None = form.username.data
 
             newuser = User(
                 username=username,
-                pwd=bcrypt.generate_password_hash(pwd),
+                pwd=generate_password_hash(pwd),
             )
 
             db.session.add(newuser)

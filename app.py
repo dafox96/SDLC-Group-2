@@ -1,17 +1,10 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask
 from os import getenv
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from flask_login import (
-    UserMixin,
-    login_user,
-    LoginManager,
-    current_user,
-    logout_user,
-    login_required,
-)
+from flask_login import LoginManager
 
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
@@ -31,6 +24,7 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = (
         "sqlite:///site.db"  # Using SQLite as the database
     )
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
     login_manager.init_app(app)
     db.init_app(app)
