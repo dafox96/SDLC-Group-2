@@ -1,7 +1,8 @@
 import hashlib
+import html
 from game_library import GameLibrary
 
-class Login:
+class Login:                                #Class which holds list of users, and has methods for accessing and editing users  
     def __init__(self):
         self.users = []
     
@@ -12,14 +13,14 @@ class Login:
         else:
             self.users.pop(index)
                 
-    def addUser(self, username, password):
+    def addUser(self, username, password):    #Creates new user entity in list of users
         index = self.checkUser(username)
         if index == -1:
             self.users.append(User(username, password))
         else:
             print("User already exists")
 
-    def listUsers(self):
+    def listUsers(self):                    #Prints list of usernames
         for user in self.users:
             print(user.getUsername())
 
@@ -29,7 +30,7 @@ class Login:
                 return i
         return -1
 
-    def login(self, username, password):
+    def login(self, username, password):                #Returns user object if login is successful, False and prints an error message otherwise
         index = self.checkUser(username)
         if index == -1:
             print("Login failed, user does not exist")
@@ -43,8 +44,7 @@ class Login:
                 print("Login failed, incorrect password")
                 return False
 
-class User:
-    """User object to hold libraries and user information"""
+class User:                                 #User class holds username, hashed password, and a GameLibrary
     def __init__(self, username, password):
         self.username = username
         self.password = generateHash(password)
@@ -67,5 +67,9 @@ def generateHash(password):
     hash = sha512.hexdigest()
     print(hash)
     return hash
+
+def sanitize(input):                    
+    return html.escape(input)
+
 
 login = Login()
