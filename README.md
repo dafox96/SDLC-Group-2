@@ -25,7 +25,7 @@ Input validation
 ## Running the Flask app
 
 1. [Install Pipenv](https://docs.pipenv.org/install/#installing-pipenv)
-2. Run `pipenv install`
+2. Within the project's root directory, run `pipenv install`
 3. Run `pipenv shell`
 4. Type `./run` from the project's root directory to start the Flask app
 
