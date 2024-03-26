@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-    <title>Game Progress App</title>
-  </head>
-  <body>
-    <section>
-      <h1>Game Progress App</h1>
-      <nav id="home-nav">
-        <!-- If not logged in: -->
-        <p><a href="/login">Log In</a></p>
-        <!-- If logged in: -->
-        <!-- <p><a href="/library.html">View Library</a></p> -->
-      </nav>
-    </section>
-  </body>
-</html>
+{% extends "base.html" %} {% block title%} {{ title }} {% endblock %} {% block
+content%}
+<div class="row mt-4">
+  <div class="col-lg-5 col-md-6 m-auto card p-4">
+    <h1 class="text-center">Game Progress App</h1>
+    <nav id="home-nav" class="d-flex flex-row justify-content-evenly">
+      <!-- If not logged in: -->
+      <p><a href="{{ url_for('login') }}">Log In</a></p>
+      <!-- If logged in: -->
+      <!-- <p><a href="/library.html">View Library</a></p> -->
+      <p><a href="#">About this app</a></p>
+    </nav>
+  </div>
+</div>
+{% endblock %}

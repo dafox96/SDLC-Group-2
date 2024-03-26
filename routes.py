@@ -38,12 +38,12 @@ app: Flask = create_app()
 @app.before_request
 def session_handler():
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=1)
+    app.permanent_session_lifetime = timedelta(minutes=5)
 
 
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
-    return render_template("index.html", title="Home")
+    return render_template("index.html", title="Game Progress App | Home")
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -52,13 +52,14 @@ def login():
     if form.validate_on_submit():
         try:
             user = User.query.filter_by(username=form.username.data).first()
-            if check_password_hash(user.pwd, form.pwd.data):
-                login_user(user)
-                return redirect(url_for("library"))
+            if user:
+                if check_password_hash(user.pwd, form.pwd.data):
+                    login_user(user)
+                    return redirect(url_for("library"))
             else:
                 flash("Invalid Username or password!", "danger")
         except Exception as e:
-            flash(e, "danger")
+            flash(f"Error: {e}", "danger")
 
     return render_template(
         "login.html",
@@ -80,7 +81,9 @@ def register():
 
             newuser = User(
                 username=username,
-                pwd=generate_password_hash(pwd).decode("utf8"),
+                pwd=generate_password_hash(pwd).decode(
+                    "utf8"
+                ),  # Hash password before storing
             )
 
             db.session.add(newuser)
