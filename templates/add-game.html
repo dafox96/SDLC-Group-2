@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <title>Game Progress App | Add Games</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/library">Library</a></li>
+      </ul>
+    </nav>
+    <section>
+      <h1>Add Games</h1>
+      <form action="" method="post">
+        <ul>
+          <li>
+            <label for="game_title">
+              Game title:
+              <input type="text" id="game_title" name="game_title"
+            /></label>
+          </li>
+          <li>
+            <label for="game_progress">
+              Game progress:
+              <input type="number" name="game_progress" id="game_progress"
+            /></label>
+          </li>
+          <li>
+            <input type="submit" value="Add Game" />
+          </li>
+        </ul>
+      </form>
+    </section>
+  </body>
+</html>
