@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Library</title>
+<style>
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: #f3f3f3;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Game Library</h1>
+
+<form id="gameForm">
+  <label for="title">Game title:</label>
+  <input type="text" id="title" name="title" required><br>
+  <label for="progress">Game progress (%):</label>
+  <input type="number" id="progress" name="progress" min="0" max="100" required><br>
+  <button type="submit">Add Game</button>
+</form>
+
+<ul id="gameList">
+  <!-- Game items will be added here -->
+</ul>
+
+</div>
+
+<script>
+// JavaScript code to handle form submission and game addition
+document.getElementById("gameForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent form submission
+  
+  // Get form values
+  var title = document.getElementById("title").value.trim();
+  var progress = parseInt(document.getElementById("progress").value.trim(), 10);
+  
+  // Validation
+  if (isNaN(progress) || progress < 0 || progress > 100) {
+    alert("Progress must be a number between 0 and 100.");
+    return;
+  }
+  
+  // Add the game to the list
+  addGameToList(title, progress);
+  
+  // Clear form fields
+  document.getElementById("title").value = "";
+  document.getElementById("progress").value = "";
+});
+
+function addGameToList(title, progress) {
+  var listItem = document.createElement("li");
+  listItem.textContent = title + " - " + progress + "%";
+  document.getElementById("gameList").appendChild(listItem);
+}
+</script>
+
+</body>
+</html>
