@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-    <title>Game Progress App | Library</title>
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/add-game">Add Games</a></li>
-      </ul>
-    </nav>
-    <section>
-      <h1>Your Library</h1>
-    </section>
+{% extends "base.html" %} {% block title%} {{ title }} {% endblock %} {% block
+content%}
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-lg-6 col-md-5 m-auto card p-4">
+          {% if session %}
+            <h2>Your Library</h2>
+            <p><a href="{{ url_for('logout') }}">Logout</a></p>
+          {% else %}
+            <p>You must <a href="{{ url_for('login') }}">login</a> to view your library.
+        {% endif %}
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+{% endblock %}

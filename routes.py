@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, flash, url_for, session
+from flask import Flask, render_template, redirect, flash, url_for, session, request
 
 from datetime import timedelta
 from sqlalchemy.exc import (
@@ -49,20 +49,19 @@ def index():
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
 def login():
     form = login_form()
-
     if form.validate_on_submit():
         try:
             user = User.query.filter_by(username=form.username.data).first()
             if check_password_hash(user.pwd, form.pwd.data):
                 login_user(user)
-                return redirect(url_for("index"))
+                return redirect(url_for("library"))
             else:
                 flash("Invalid Username or password!", "danger")
         except Exception as e:
             flash(e, "danger")
 
     return render_template(
-        "auth.html",
+        "login.html",
         form=form,
         text="Login",
         title="Game Progress | Login",
@@ -76,12 +75,12 @@ def register():
     form = register_form()
     if form.validate_on_submit():
         try:
-            pwd: str | None = form.pwd.data
-            username: str | None = form.username.data
+            pwd = form.pwd.data
+            username = form.username.data
 
             newuser = User(
                 username=username,
-                pwd=generate_password_hash(pwd),
+                pwd=generate_password_hash(pwd).decode("utf8"),
             )
 
             db.session.add(newuser)
@@ -100,10 +99,10 @@ def register():
             flash("Invalid Entry", "warning")
         except InterfaceError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {InterfaceError}", "danger")
+            flash("Error connecting to the database", "danger")
         except DatabaseError:
             db.session.rollback()
-            flash(f"Error connecting to the database: {DatabaseError}", "danger")
+            flash("Error connecting to the database", "danger")
         except BuildError:
             db.session.rollback()
             flash("An error occurred", "danger")
@@ -128,9 +127,13 @@ def add_games():
     return render_template("add-game.html", title="Game Progress | Add Game")
 
 
-@app.route("/library")
+@app.route("/library/")
 def library():
-    return render_template("library.html", title="Game Progress | My Library")
+    return render_template(
+        "library.html",
+        title="Game Progress | My Library",
+        username=session.get("id", None),
+    )
 
 
 if __name__ == "__main__":

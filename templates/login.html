@@ -1,58 +1,84 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-    <title>Game Progress App | Login</title>
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/library">Library</a></li>
-      </ul>
-    </nav>
-    <section>
-      <div class="container">
-        <div class="header">
-          <h1>Login</h1>
+{% extends "base.html" %} {% block title%} {{ title }} {% endblock %} {% block
+content%}
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-lg-5 col-md-6 m-auto card p-4">
+      <form action="{{ request.path }}" method="POST" class="card-body">
+        {{ form.csrf_token }} {% with messages =
+        get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{category}} alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
         </div>
-        <form name="login" method="post">
-          <ul>
-            <li>
-              <label for="username">
-                Username:
-                <input
-                  id="username"
-                  type="text"
-                  name="username"
-                  value="{{ request.form.username }}"
-              /></label>
-            </li>
-            <li>
-              <label for="password">
-                Password:
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  alue="{{ request.form.password }}"
-              /></label>
-            </li>
-          </ul>
-          <input type="submit" class="submit" value="Log In" name="submit" />
-        </form>
-      </div>
-      {% if error %}
-      <p class="error"><strong>Error:</strong></p>
-      {{ error }} {% endif %}
-    </section>
+        {% endfor %} {% endif %} {% endwith %}
 
-    <script src="./scripts/login.js"></script>
-  </body>
-</html>
+        <div class="text-center">
+          <h2>Game Progress App</h2>
+          <h5 class="text-primary">{{ text }}</h5>
+        </div>
+
+        {% if request.path == '/login/' %}
+        <div class="form-group mb-3">
+          {{ form.username(class_="form-control",placeholder="Username")}}
+        </div>
+        {% for error in form.username.errors %}
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          {{ error }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor%} {% endif%}
+        <div class="form-group mb-3">
+          {{ form.pwd(class_="form-control",placeholder="Password")}}
+        </div>
+        {% for error in form.pwd.errors %}
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          {{ error }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor%}
+        <div class="text-center">
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-block btn-primary mb-3">
+              {{ btn_action }}
+            </button>
+          </div>
+
+          <p>
+            {% if request.path == '/login/' %} New here?
+            <a href="{{url_for('register')}}">Create account</a>
+            {% else %} Already have an account?
+            <a href="{{url_for('login')}}">Login</a>
+            {% endif %}
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

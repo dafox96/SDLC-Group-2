@@ -15,9 +15,10 @@ from models import User
 
 
 class login_form(FlaskForm):
+    username = StringField(
+        validators=[InputRequired(), Optional(strip_whitespace=True)]
+    )
     pwd = PasswordField(validators=[InputRequired(), Length(min=8, max=72)])
-    # Placeholder labels to enable form rendering
-    username = StringField(validators=[Optional()])
 
 
 class register_form(FlaskForm):
