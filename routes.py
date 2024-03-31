@@ -8,6 +8,7 @@ from sqlalchemy.exc import (
     InterfaceError,
     InvalidRequestError,
 )
+
 from werkzeug.routing import BuildError
 
 
@@ -54,6 +55,9 @@ def login():
             user = User.query.filter_by(username=form.username.data).first()
             if user:
                 if check_password_hash(user.pwd, form.pwd.data):
+                    user.authenticated = True
+                    db.session.add(user)
+                    db.session.commit()
                     login_user(user)
                     return redirect(url_for("library"))
             else:
@@ -76,20 +80,19 @@ def register():
     form = register_form()
     if form.validate_on_submit():
         try:
-            pwd = form.pwd.data
-            username = form.username.data
+            pwd: str | None = form.pwd.data
+            username: str | None = form.username.data
 
-            newuser = User(
+            new_user = User(
                 username=username,
                 pwd=generate_password_hash(pwd).decode(
                     "utf8"
                 ),  # Hash password before storing
             )
-
-            db.session.add(newuser)
+            db.session.add(new_user)
             db.session.commit()
             flash("Account successfully created", "success")
-            return redirect(url_for("login"))
+            return redirect(url_for("library"))
 
         except InvalidRequestError:
             db.session.rollback()
@@ -109,23 +112,29 @@ def register():
         except BuildError:
             db.session.rollback()
             flash("An error occurred", "danger")
+
     return render_template(
         "auth.html",
         form=form,
         text="Create account",
         title="Game Progress | Register",
-        btn_action="Register account",
+        btn_action="Register Account",
     )
 
 
 @app.route("/logout")
 @login_required
 def logout():
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
     logout_user()
     return redirect(url_for("login"))
 
 
-@app.route("/add-game/", methods=("GET", "POST"), strict_slashes=False)
+@app.route("/library/add-game/", methods=("GET", "POST"), strict_slashes=False)
+@login_required
 def add_games():
     form = add_game_form()
     if form.validate_on_submit():
@@ -133,11 +142,15 @@ def add_games():
             game_title: str | None = form.game_title.data
             game_progress: int | None = form.game_progress.data
 
-            new_game = Game(game_title, game_progress)
+            new_game = Game(game_title=game_title, game_progress=game_progress)
+
+            user = User.query.filter_by(id=current_user.id).first()
+            user.games.append(new_game)
 
             db.session.add(new_game)
+            db.session.add(user)
             db.session.commit()
-            flash("Game added to your library", "success")
+            flash(f"{game_title} has been added to your library!", "success")
 
         except InvalidRequestError:
             db.session.rollback()
@@ -163,16 +176,20 @@ def add_games():
         form=form,
         text="Add game",
         title="Game Progress | Add Game",
-        btn_action="Add game",
+        btn_action="Add Game",
     )
 
 
 @app.route("/library/")
+@login_required
 def library():
+    user = User.query.filter_by(id=current_user.id).first()
+
     return render_template(
         "library.html",
         title="Game Progress | My Library",
-        username=session.get("id", None),
+        username=user.username,
+        games=user.games,
     )
 
 
