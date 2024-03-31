@@ -23,8 +23,8 @@ from flask_login import (
 )
 
 from app import create_app, db, login_manager, bcrypt
-from models import User
-from forms import login_form, register_form
+from models import User, Game
+from forms import login_form, register_form, add_game_form
 
 
 @login_manager.user_loader
@@ -125,9 +125,46 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/add-game")
+@app.route("/add-game/", methods=("GET", "POST"), strict_slashes=False)
 def add_games():
-    return render_template("add-game.html", title="Game Progress | Add Game")
+    form = add_game_form()
+    if form.validate_on_submit():
+        try:
+            game_title: str | None = form.game_title.data
+            game_progress: int | None = form.game_progress.data
+
+            new_game = Game(game_title, game_progress)
+
+            db.session.add(new_game)
+            db.session.commit()
+            flash("Game added to your library", "success")
+
+        except InvalidRequestError:
+            db.session.rollback()
+            flash("Something went wrong!", "danger")
+        except IntegrityError:
+            db.session.rollback()
+            flash("User already exists!.", "warning")
+        except DataError:
+            db.session.rollback()
+            flash("Invalid Entry", "warning")
+        except InterfaceError:
+            db.session.rollback()
+            flash("Error connecting to the database", "danger")
+        except DatabaseError:
+            db.session.rollback()
+            flash("Error connecting to the database", "danger")
+        except BuildError:
+            db.session.rollback()
+            flash("An error occurred", "danger")
+
+    return render_template(
+        "add-game.html",
+        form=form,
+        text="Add game",
+        title="Game Progress | Add Game",
+        btn_action="Add game",
+    )
 
 
 @app.route("/library/")

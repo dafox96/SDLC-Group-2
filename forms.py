@@ -8,9 +8,16 @@ from wtforms import (
 )
 
 from flask_wtf import FlaskForm
-from wtforms.validators import InputRequired, Length, EqualTo, Email, Regexp, Optional
+from wtforms.validators import (
+    InputRequired,
+    Length,
+    EqualTo,
+    NumberRange,
+    Regexp,
+    Optional,
+)
 from flask_login import current_user
-from wtforms import ValidationError, validators
+from wtforms import ValidationError
 from models import User
 
 
@@ -46,3 +53,11 @@ class register_form(FlaskForm):
     def validate_uname(self, username):
         if User.query.filter_by(username=username.data).first():
             raise ValidationError("Username already taken!")
+
+
+class add_game_form(FlaskForm):
+    game_title = StringField(validators=[InputRequired()], label="Game Title")
+    game_progress = IntegerField(
+        validators=[InputRequired(), NumberRange(min=0, max=100)],
+        label="Game Progress",
+    )
