@@ -1,42 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-    <title>Game Progress App | Add Games</title>
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/library">Library</a></li>
-      </ul>
-    </nav>
-    <section>
-      <h1>Add Games</h1>
-      <form action="" method="post">
-        <ul>
-          <li>
-            <label for="game_title">
-              Game title:
-              <input type="text" id="game_title" name="game_title"
-            /></label>
-          </li>
-          <li>
-            <label for="game_progress">
-              Game progress:
-              <input type="number" name="game_progress" id="game_progress"
-            /></label>
-          </li>
-          <li>
-            <input type="submit" value="Add Game" />
-          </li>
-        </ul>
+{% extends "base.html" %} {% block title%} {{ title }} {% endblock %} {% block
+content%}
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-lg-5 col-md-6 m-auto card p-4">
+      <form action="{{ request.path }}" method="POST" class="card-body">
+        {{ form.csrf_token }} {% with messages =
+        get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{category}} alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <div class="text-center">
+          <h2>Add Game to Library</h2>
+          <h5 class="text-primary">{{ text }}</h5>
+        </div>
+
+        <div class="form-group mb-3">
+          {{ form.game_title.label }} {{
+          form.game_title(class_="form-control",placeholder="Star Fox")}}
+        </div>
+        {% for error in form.game_title.errors %}
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          {{ error }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor%}
+        <div class="form-group mb-3">
+          {{ form.game_progress.label }} {{
+          form.game_progress(class_="form-control",placeholder="")}}
+        </div>
+        {% for error in form.game_progress.errors %}
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          {{ error }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor%}
+        <div class="text-center">
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-block btn-primary mb-3">
+              {{ btn_action }}
+            </button>
+          </div>
+        </div>
       </form>
-    </section>
-  </body>
-</html>
+    </div>
+  </div>
+</div>
+{% endblock %}
