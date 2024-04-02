@@ -19,7 +19,6 @@ content%}
             {% else %}
               <p>You do not have any games in your library.</p>
             {% endif %}
-            <p><a href="{{ url_for('logout') }}">Logout</a></p>
           {% else %}
             <p>You must <a href="{{ url_for('login') }}">login</a> to view your library.
         {% endif %}
