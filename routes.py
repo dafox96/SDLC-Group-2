@@ -193,5 +193,19 @@ def library():
     )
 
 
+@app.route("/delete", methods=["GET", "POST"])
+@login_required
+def delete_game():
+    if request.method == "POST":
+        game_id = request.form.getlist("id")
+        # print(game_id[0])
+        game = db.session.get(Game, game_id[0])
+        db.session.delete(game)
+        db.session.commit()
+        print("Game deleted")
+
+        return redirect(url_for("library"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)

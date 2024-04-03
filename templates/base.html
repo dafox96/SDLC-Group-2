@@ -11,7 +11,8 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link href="/static/styles.css" rel="stylesheet" />
+    <link href="{{ url_for("static", filename="styles.css") }}" rel="stylesheet"
+    />
     <!-- Sweet alert Js -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>{% block title%} {{ title }} {% endblock %}</title>
@@ -38,5 +39,6 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="{{ url_for("static",filename="scripts/scripts.js") }}"></script>
   </body>
 </html>
