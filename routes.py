@@ -202,9 +202,8 @@ def delete_game():
         game = db.session.get(Game, game_id[0])
         db.session.delete(game)
         db.session.commit()
-        print("Game deleted")
 
-        return redirect(url_for("library"))
+        return url_for("library")
 
 
 if __name__ == "__main__":

@@ -3,3 +3,12 @@
 .deleteGameBtn {
   margin-top: 0.5rem;
 }
+
+.row>.col.removed {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
